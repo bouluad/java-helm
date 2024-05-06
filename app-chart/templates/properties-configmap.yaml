@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "ilc-app-chart.fullname" . }}-properties-configmap
+data:
+  application.properties: |-
+    # Place your application properties here
