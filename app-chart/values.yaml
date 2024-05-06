@@ -3,11 +3,10 @@
 
 # Default values for ilc-app-chart.
 nameOverride: ""
-env: ""
+env: "production"  # Environment name
 image:
   repository: your/image-repo
   tag: latest
-  pullPolicy: IfNotPresent
 
 service:
   port: 8080
@@ -18,8 +17,17 @@ ingress:
   paths:
     - /
 
-envConfigMap: {}
+# Environment variables and Java options in ConfigMap
+envConfigMap:
+  ENV_VAR_1: value1
+  ENV_VAR_2: value2
+  JAVA_OPTS: "-Xmx512m -Xms256m"
 
+# Path to application properties file
 applicationPropertiesPath: /path/to/application.properties
 
-secrets: []
+# Example of secrets
+secrets:
+  db-credentials:
+    username: admin
+    password: adminpassword
