@@ -1,0 +1,4 @@
+apiVersion: v2
+name: ilc-app-chart
+description: A Helm chart for deploying a generic Java app named ilc-app
+version: 0.1.0
