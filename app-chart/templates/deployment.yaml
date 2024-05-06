@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "ilc-app-chart.name" . }}
+  labels:
+    app: {{ include "ilc-app-chart.name" . }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ include "ilc-app-chart.name" . }}
+  template:
+    metadata:
+      labels:
+        app: {{ include "ilc-app-chart.name" . }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: 8080
+          envFrom:
+            - configMapRef:
+                name: {{ .Values.name }}-{{ .Values.env }}-configmap
+            - secretRef:
+                name: {{ .Values.name }}-{{ .Values.env }}-secrets
+          volumeMounts:
+            - name: config-volume
+              mountPath: /config
+            - name: properties-volume
+              mountPath: /path/to/application.properties
+      volumes:
+        - name: config-volume
+          configMap:
+            name: {{ include "ilc-app-chart.name" . }}-configmap
+        - name: properties-volume
+          configMap:
+            name: {{ include "ilc-app-chart.name" . }}-properties-configmap
